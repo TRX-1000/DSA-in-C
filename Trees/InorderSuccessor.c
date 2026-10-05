@@ -42,32 +42,41 @@ We can also set the return type of the function as int if we want to directly re
 Node* Find(Node* rootPtr, int data); // Helper function; find the target node
 Node* FindMin(Node* rootPtr); // Helper function; find smallest element in the right subtree
 
-int main(void) {
-    Node* rootPtr = NULL; 
+int main() {
+    Node* rootPtr = NULL;
     int n = 0;
 
     printf("Enter the number of elements: ");
     scanf("%d", &n);
+
     for (int i = 0; i < n; i++) {
         int data = 0;
+
         printf("Enter element #%d: ", i + 1);
         scanf("%d", &data);
+
         rootPtr = Insert(rootPtr, data);
     }
 
-    InorderTraversal(rootPtr); 
-    printf("\n");
+    int key = 0;
 
-    int key;
-    printf("Enter the element to be searched: ");
+    printf("Enter the element whose inorder successor is to be found: ");
     scanf("%d", &key);
-    if (Search(rootPtr, key)) {
-        printf("Element was found.\n");
-    } else {
-        printf("Element was not found.\n");
-    }
 
-    printf("Height of the binary search tree is: %d\n", FindHeight(rootPtr));
+    Node* current = Find(rootPtr, key);
+
+    if (current == NULL) {
+        printf("Element was not found in the tree.\n");
+    } else {
+        Node* successor = GetSuccessor(rootPtr, key);
+
+        if (successor == NULL) {
+            printf("%d has no inorder successor.\n", key);
+        } else {
+            printf("Inorder successor of %d is %d.\n",
+                   key, successor->data);
+        }
+    }
 
     return 0;
 }
